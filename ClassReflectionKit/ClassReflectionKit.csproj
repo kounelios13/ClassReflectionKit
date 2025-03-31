@@ -10,7 +10,7 @@
     <PackageDescription>ClassReflectionKit is a library that provides a set of utilities for working with class reflection in C#.</PackageDescription>
     <IncludeSymbols>True</IncludeSymbols>
     <PackageId>ClassReflectionKit</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <RepositoryUrl>https://github.com/kounelios13/ClassReflectionKit</RepositoryUrl>
   </PropertyGroup>
 
