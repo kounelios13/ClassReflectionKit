@@ -17,10 +17,17 @@ public static class ClassReflectionKitExtensions
         return prop.Identifier.ValueText;
     }
 
+   
     public static string GetNSName(this NamespaceDeclarationSyntax ns)
     {
-        return ns.Name.ToFullString();
+        return ns.Name.ToFullString().Replace("\r\n", "").Replace("\n", "");
     }
+
+    public static string GetNSName(this BaseNamespaceDeclarationSyntax ns)
+    {
+        return ns.Name.ToFullString().Replace("\r\n", "").Replace("\n", "");
+    }
+    
     // Get the simplified type name of the property 
     // e.g. if type is string[] or IEnumerable<string> return string
     public static string GetSimplifiedPropTypeName(this PropertyDeclarationSyntax prop)
@@ -51,7 +58,7 @@ public static class ClassReflectionKitExtensions
         sb.AppendLine($"public class {templateInfo.ClassName} " + "{");
         foreach (var p in templateInfo.ClassProperties)
         {
-            sb.AppendLine($"\t{p}");
+            sb.AppendLine($"\t{p.ToTemplateString()}");
         }
         sb.AppendLine("}");
         sb.AppendLine($"#endregion {templateInfo.ClassName}");
