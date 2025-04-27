@@ -6,6 +6,7 @@
 public class TemplateClassInfo
 {
     public string ClassName { get; set; } = String.Empty;
+    public string NameSpace {  get; set; } = String.Empty;
     public List<ClassPropertyInfo> ClassProperties { get; set; } = new();
 }
 
@@ -14,7 +15,6 @@ public class ClassPropertyInfo
     public bool IsNullable { get; set; }
     public bool IsArray { get; init; }
 
-    // #TODO - Leave it here for future implementation
     public bool IsCustomClass { get; set; } = false;
 
     public required string PropTypeName { get; init; }

@@ -5,7 +5,9 @@ using ClassReflectionKit.Extensions;
 using ClassReflectionKit.Models;
 namespace ClassReflectionKit.Helpers;
 
-public class ClassReflectionKitHelper
+public delegate TemplateClassInfo? ProcessClassInfo(TemplateClassInfo? classInfo);
+public delegate IEnumerable<TemplateClassInfo> ProcessNSClasses(IEnumerable<TemplateClassInfo> classes);
+public class ClassReflectionKitHelper : IClassReflectionKitHelper
 {
     private Dictionary<string, List<SyntaxTree>> NamespaceSyntaxTrees { get; set; } = new();
 
@@ -45,7 +47,7 @@ public class ClassReflectionKitHelper
                 NamespaceSyntaxTrees[ns] = new List<SyntaxTree>();
             }
             NamespaceSyntaxTrees[ns].Add(syntaxTree);
-        }        
+        }
     }
 
 
@@ -70,6 +72,7 @@ public class ClassReflectionKitHelper
                     var classInfo = new TemplateClassInfo
                     {
                         ClassName = cl.GetClassName(),
+                        NameSpace = ns,
                         ClassProperties = props.Select(prop => new ClassPropertyInfo
                         {
                             IsArray = prop.IsArrayLike(),
@@ -83,6 +86,14 @@ public class ClassReflectionKitHelper
             }
         }
         return null;
+    }
+
+    public virtual TemplateClassInfo? GetClassInfo(string ns, string className, ProcessClassInfo procDelegate)
+    {
+
+        var classInfo = GetClassInfo(ns, className);
+        if (classInfo == null) return null;
+        return procDelegate(classInfo);
     }
 
     public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns)
@@ -101,5 +112,36 @@ public class ClassReflectionKitHelper
             }
         }
         return classesInfo;
+    }
+
+    public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate)
+    {
+        var classesInfo = GetNSClasses(ns);
+        return procDelegate(classesInfo);
+    }
+
+    public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate, ProcessClassInfo procClassDelegate)
+    {
+        var classesInfo = GetNSClasses(ns);
+        if (classesInfo == null) return new List<TemplateClassInfo>();
+        // Apply the class info delegate to each class info
+        // and return the result
+        var mappedClasses = classesInfo.Where(e => e != null
+                ).Select(e => procClassDelegate(e)!)
+            .ToList();
+        return procDelegate(mappedClasses);
+    }
+
+    bool IClassReflectionKitHelper.IsCodeSnippetValid(string codeSnippet)
+    {
+        var syntaxTree = CSharpSyntaxTree.ParseText(codeSnippet);
+        if(syntaxTree == null) return false;
+        var root = syntaxTree.GetRoot();
+        if(root == null) return false;
+        if(syntaxTree.GetDiagnostics().Any(e => e.DefaultSeverity == DiagnosticSeverity.Error))
+        {
+            return false;
+        }
+        return true;
     }
 }
