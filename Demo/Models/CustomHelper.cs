@@ -1,16 +1,19 @@
-﻿using ClassReflectionKit.Models;
+﻿using ClassReflectionKit.Helpers;
+using ClassReflectionKit.Models;
+namespace ClassreflectionUtilLib.Models;
 
-namespace Demo.Models;
 
 public class CustomHelper : ClassReflectionKit.Helpers.ClassReflectionKitHelper
 {
     override
     public TemplateClassInfo? GetClassInfo(string ns, string className)
     {
+       
         var classInfo = base.GetClassInfo(ns, className);
         if (classInfo == null) return null;
         classInfo.ClassProperties.ToList()
             .ForEach(x => x.IsNullable = false);
+
         var nullableProps = classInfo.ClassProperties.Where(x => x.PropName.EndsWith("Specified"))
             .Select(x => x.PropName).ToList();
         if (nullableProps.Count() < 1) return classInfo;
@@ -27,5 +30,25 @@ public class CustomHelper : ClassReflectionKit.Helpers.ClassReflectionKitHelper
             Where(x => !nullableProps.Contains(x.PropName))
             .ToList();
         return classInfo;
+    }
+
+    override
+        public IEnumerable<TemplateClassInfo> GetNSClasses(string ns)
+    {
+        List<TemplateClassInfo> classesInfo = base.GetNSClasses(ns).ToList();
+        List<string> classNames = classesInfo.Select(classesInfo => classesInfo.ClassName).ToList();
+
+        foreach (var cl in classesInfo)
+        {
+
+            var customTypeProps = cl.ClassProperties.Where(e => classNames.Contains(e.PropTypeName) && e.PropTypeName != cl.ClassName).ToList();
+            if (customTypeProps.Count() < 1) continue;
+            customTypeProps.ForEach(x =>
+            {
+                x.IsCustomClass = true;
+            });
+        }
+
+        return classesInfo;
     }
 }

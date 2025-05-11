@@ -1,8 +1,37 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ClassReflectionKit.Extensions;
-using Demo.Models;
+using ClassReflectionKit.Helpers;
+using ClassreflectionUtilLib.Models;
 
-var helper = new CustomHelper();
+
+
+var classInfoDelegate = new ProcessClassInfo(e => { 
+    if (e == null)
+    {
+        return null;
+    }
+    e.ClassProperties.ToList()
+        .ForEach(x => x.IsNullable = false);
+    var nullableProps = e.ClassProperties.Where(x => x.PropName.EndsWith("Specified"));
+    if (nullableProps.Count() < 1) return e;
+    foreach (var prop in nullableProps)
+    {
+        // Find corresponding property that  does not end with "Specified"
+        var propName = prop.PropName.Replace("Specified", "");
+        var correspondingProp = e.ClassProperties.FirstOrDefault(x => x.PropName == propName);
+        if (correspondingProp == null) continue;
+        correspondingProp.IsNullable = true;
+    }
+    // Keep only properties that do not end with "Specified"
+    e.ClassProperties = e.ClassProperties.
+        Where(x => !nullableProps.Select(x => x.PropName).Contains(x.PropName))
+        .ToList();
+    return e; 
+});
+
+var processNSClassesDelegate = new ProcessNSClasses(e => { return e; });
+
+var helper = new ClassReflectionKitHelper();
 
 
 var samples = new List<string> { "Address.cs", "User.cs" , "Employee.cs" };
