@@ -13,11 +13,11 @@ public class TemplateClassInfo
 public class ClassPropertyInfo
 {
     public bool IsNullable { get; set; }
-    public bool IsArray { get; init; }
+    public bool IsArray { get; set; }
 
     public bool IsCustomClass { get; set; } = false;
 
-    public required string PropTypeName { get; init; }
+    public string PropTypeName { get; set; } = String.Empty;
 
-    public required string PropName { get; set; }
+    public string PropName { get; set; } = String.Empty;
 }
