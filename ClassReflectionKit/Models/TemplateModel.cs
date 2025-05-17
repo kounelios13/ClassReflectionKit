@@ -1,8 +1,12 @@
-﻿namespace ClassReflectionKit.Models;
+﻿using Microsoft.JavaScript.NodeApi;
+
+namespace ClassReflectionKit.Models;
 
 /// <summary>
 /// Class for storing information about other classes that will be rendered in a template
 /// </summary>
+///
+[JSExport("TemplateClassInfo")]
 public class TemplateClassInfo
 {
     public string ClassName { get; set; } = String.Empty;
@@ -10,6 +14,7 @@ public class TemplateClassInfo
     public List<ClassPropertyInfo> ClassProperties { get; set; } = new();
 }
 
+[JSExport("ClassPropertyInfo")]
 public class ClassPropertyInfo
 {
     public bool IsNullable { get; set; }
@@ -21,3 +26,9 @@ public class ClassPropertyInfo
 
     public string PropName { get; set; } = String.Empty;
 }
+
+[JSExport("ProcessClassInfo")]
+public delegate TemplateClassInfo? ProcessClassInfo(TemplateClassInfo? classInfo);
+
+[JSExport("ProcessNSClasses")]
+public delegate IEnumerable<TemplateClassInfo> ProcessNSClasses(IEnumerable<TemplateClassInfo> classes);

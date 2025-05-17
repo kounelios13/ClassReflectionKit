@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ClassReflectionKit.Extensions;
 using ClassReflectionKit.Helpers;
+using ClassReflectionKit.Models;
 using ClassreflectionUtilLib.Models;
 
 
