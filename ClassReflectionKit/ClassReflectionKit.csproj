@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
+    <PackageReference Include="Microsoft.JavaScript.NodeApi" Version="0.9.11" />
+    <PackageReference Include="Microsoft.JavaScript.NodeApi.Generator" Version="0.9.11" />
   </ItemGroup>
 
   <ItemGroup>
