@@ -3,7 +3,7 @@ using ClassReflectionKit.Models;
 namespace ClassreflectionUtilLib.Models;
 
 
-public class CustomHelper : ClassReflectionKit.Helpers.ClassReflectionKitHelper
+public class CustomHelper : ClassReflectionKitHelper
 {
     override
     public TemplateClassInfo? GetClassInfo(string ns, string className)
@@ -33,7 +33,7 @@ public class CustomHelper : ClassReflectionKit.Helpers.ClassReflectionKitHelper
     }
 
     override
-        public IEnumerable<TemplateClassInfo> GetNSClasses(string ns)
+        public List<TemplateClassInfo> GetNSClasses(string ns)
     {
         List<TemplateClassInfo> classesInfo = base.GetNSClasses(ns).ToList();
         List<string> classNames = classesInfo.Select(classesInfo => classesInfo.ClassName).ToList();

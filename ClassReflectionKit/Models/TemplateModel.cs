@@ -31,4 +31,4 @@ public class ClassPropertyInfo
 public delegate TemplateClassInfo? ProcessClassInfo(TemplateClassInfo? classInfo);
 
 [JSExport("ProcessNSClasses")]
-public delegate IEnumerable<TemplateClassInfo> ProcessNSClasses(IEnumerable<TemplateClassInfo> classes);
+public delegate List<TemplateClassInfo> ProcessNSClasses(List<TemplateClassInfo> classes);
