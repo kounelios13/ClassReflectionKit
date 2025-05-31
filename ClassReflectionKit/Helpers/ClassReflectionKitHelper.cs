@@ -97,7 +97,7 @@ public class ClassReflectionKitHelper : IClassReflectionKitHelper
         return procDelegate(classInfo);
     }
 
-    public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns)
+    public virtual List<TemplateClassInfo> GetNSClasses(string ns)
     {
         if (!NamespaceSyntaxTrees.ContainsKey(ns)) return new List<TemplateClassInfo>();
         var syntaxTrees = NamespaceSyntaxTrees[ns];
@@ -115,13 +115,13 @@ public class ClassReflectionKitHelper : IClassReflectionKitHelper
         return classesInfo;
     }
 
-    public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate)
+    public virtual List<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate)
     {
         var classesInfo = GetNSClasses(ns);
         return procDelegate(classesInfo);
     }
 
-    public virtual IEnumerable<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate, ProcessClassInfo procClassDelegate)
+    public virtual List<TemplateClassInfo> GetNSClasses(string ns, ProcessNSClasses procDelegate, ProcessClassInfo procClassDelegate)
     {
         var classesInfo = GetNSClasses(ns);
         if (classesInfo == null) return new List<TemplateClassInfo>();
