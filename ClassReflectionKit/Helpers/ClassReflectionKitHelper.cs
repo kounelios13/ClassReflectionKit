@@ -3,11 +3,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ClassReflectionKit.Extensions;
 using ClassReflectionKit.Models;
-using Microsoft.JavaScript.NodeApi;
 namespace ClassReflectionKit.Helpers;
 
 
-[JSExport]
+
 public class ClassReflectionKitHelper : IClassReflectionKitHelper
 {
     private Dictionary<string, List<SyntaxTree>> NamespaceSyntaxTrees { get; set; } = new();
