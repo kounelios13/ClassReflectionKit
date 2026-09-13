@@ -12,12 +12,12 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="Samples\**\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<ItemGroup>
+	<!-- <ItemGroup>
 	  <Compile Remove="Samples\Employee.cs" />
-	</ItemGroup>
+	</ItemGroup> -->
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.JavaScript.NodeApi" Version="0.9.11" />
 	  <PackageReference Include="Microsoft.JavaScript.NodeApi.Generator" Version="0.9.11" />
