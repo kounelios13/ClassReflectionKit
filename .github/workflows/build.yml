@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-publish:
-    environment: release
+    environment: Release
     runs-on: ubuntu-latest
     permissions:
       id-token: write
