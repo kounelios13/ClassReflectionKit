@@ -15,7 +15,16 @@ jobs:
     permissions:
       id-token: write
     steps:
-       # Build your artifacts/my-sdk.nupkg package here
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+      
+      - name: Build and pack
+        run: dotnet pack --configuration Release --output artifacts
     
       # Get a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
