@@ -54,14 +54,14 @@ public static class ClassReflectionKitExtensions
     public static string ToTemplateString(this TemplateClassInfo templateInfo)
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"#region {templateInfo.ClassName}");
+        sb.AppendLine($"// #region {templateInfo.ClassName}");
         sb.AppendLine($"public class {templateInfo.ClassName} " + "{");
         foreach (var p in templateInfo.ClassProperties)
         {
             sb.AppendLine($"\t{p.ToTemplateString()}");
         }
         sb.AppendLine("}");
-        sb.AppendLine($"#endregion {templateInfo.ClassName}");
+        sb.AppendLine($"// #endregion {templateInfo.ClassName}");
         return sb.ToString();
     }
 
